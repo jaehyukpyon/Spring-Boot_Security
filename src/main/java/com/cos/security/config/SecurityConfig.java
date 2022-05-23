@@ -27,7 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 .anyRequest().permitAll() // 여기까지만 작성하고 서버 실행 후, 로그인을 하지 않은 상태에서 localhost:9090 접근 가능. 다만, /user에 접근하려고 하면, 403 error가 발생했다고 알려주는 Whitelabel Error Page가 뜬다.
                 .and() // 사용자가 로그인 하지 않은 상태에서, 인증되어야 접근할 수 있는 페이지에 접근하려고 할 때, 내가 정의한 페이지로 redirect 시키기 위한 설정 => .and().formLogin().loginPage("/login")
-                .formLogin().loginPage("/loginForm");
+                .formLogin().loginPage("/loginForm")
+                .loginProcessingUrl("/login") // login 이 호출되면, Security가 낚아채서 대신 로그인을 진행시킴.
+                .defaultSuccessUrl("/");
     }
 
     @Bean
