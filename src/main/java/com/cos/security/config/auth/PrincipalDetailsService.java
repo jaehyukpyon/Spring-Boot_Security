@@ -13,7 +13,7 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     /*
     * SecurityConfig에서 설정해 놓은, loginProcessingUrl("/login").
-    * "/login" 요청이 오면, 자동으로 UserDetailsService type으로 Bean 등록 되어 있는 loadUserByUsername 메서드가 실행된다.
+    * "/login" 요청이 오면, 자동으로 UserDetailsService type으로 Bean 등록 되어 있는 loadUserByUsername 메서드가 실행됨.
     * */
 
     @Autowired
@@ -24,10 +24,12 @@ public class PrincipalDetailsService implements UserDetailsService {
 
         User user = userRepository.findByUsername(username);
 
-        if (user != null) {
+        if (user == null) {
+            throw new UsernameNotFoundException(username);
+        } else {
             return new PrincipalDetails(user);
         }
-        return null;
+
     }
 
 }
